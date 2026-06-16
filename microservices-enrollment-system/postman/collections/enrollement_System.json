@@ -1,0 +1,648 @@
+{
+    "info": {
+        "_postman_id": "enrollment-system-full-tests",
+        "name": "Student Enrollment System - Complete Tests",
+        "description": "Tests for: 3 students max per course, Dashboard, 24-Hour Cancellation Rule",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8080",
+            "type": "string"
+        },
+        {
+            "key": "student1_cnie",
+            "value": "STU001",
+            "type": "string"
+        },
+        {
+            "key": "student2_cnie",
+            "value": "STU002",
+            "type": "string"
+        },
+        {
+            "key": "student3_cnie",
+            "value": "STU003",
+            "type": "string"
+        },
+        {
+            "key": "student4_cnie",
+            "value": "STU004",
+            "type": "string"
+        },
+        {
+            "key": "course_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "enrollment_id",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "===== PART 1: SETUP - Create Students and Course =====",
+            "item": [
+                {
+                    "name": "1.1 Create Student 1 (Ali)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "pm.test(\"Student created successfully\", function() {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('cnie', pm.variables.get('student1_cnie'));",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"cnie\": \"{{student1_cnie}}\",\n    \"firstName\": \"Ali\",\n    \"lastName\": \"Benani\",\n    \"email\": \"ali.benani@test.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/students",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "1.2 Create Student 2 (Sara)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"cnie\": \"{{student2_cnie}}\",\n    \"firstName\": \"Sara\",\n    \"lastName\": \"Idrissi\",\n    \"email\": \"sara.idrissi@test.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/students",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "1.3 Create Student 3 (Youssef)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"cnie\": \"{{student3_cnie}}\",\n    \"firstName\": \"Youssef\",\n    \"lastName\": \"Tazi\",\n    \"email\": \"youssef.tazi@test.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/students",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "1.4 Create Student 4 (Fatima)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"cnie\": \"{{student4_cnie}}\",\n    \"firstName\": \"Fatima\",\n    \"lastName\": \"Zahra\",\n    \"email\": \"fatima.zahra@test.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/students",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "1.5 Create a Course (Spring Boot Microservices)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "var jsonData = pm.response.json();",
+                                    "pm.collectionVariables.set('course_id', jsonData.id);",
+                                    "console.log('Course ID saved: ' + jsonData.id);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Spring Boot Microservices\",\n    \"description\": \"Architecture des microservices avec Spring Boot\",\n    \"credits\": 5\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/courses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "===== PART 2: RULE - Maximum 3 Students Per Course =====",
+            "description": "A course cannot have more than 3 students enrolled",
+            "item": [
+                {
+                    "name": "2.1 Enroll Student 1 (Should succeed - 1/3)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "var jsonData = pm.response.json();",
+                                    "pm.expect(jsonData).to.have.property('deletable', true);",
+                                    "pm.collectionVariables.set('enrollment_id', jsonData.enrollmentId);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"studentCnie\": \"{{student1_cnie}}\",\n    \"courseId\": {{course_id}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "2.2 Enroll Student 2 (Should succeed - 2/3)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"studentCnie\": \"{{student2_cnie}}\",\n    \"courseId\": {{course_id}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "2.3 Enroll Student 3 (Should succeed - 3/3 MAXIMUM REACHED)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"studentCnie\": \"{{student3_cnie}}\",\n    \"courseId\": {{course_id}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "2.4 Enroll Student 4 (Should FAIL - Course is full)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 400\", function() {",
+                                    "    pm.response.to.have.status(400);",
+                                    "});",
+                                    "pm.test(\"Error message indicates course is full\", function() {",
+                                    "    var message = pm.response.text();",
+                                    "    pm.expect(message).to.include('maximum');",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"studentCnie\": \"{{student4_cnie}}\",\n    \"courseId\": {{course_id}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "===== PART 3: DASHBOARD - Student Enrollments =====",
+            "description": "Upon entering their CNIE, the student should see a list of all courses they are currently enrolled in",
+            "item": [
+                {
+                    "name": "3.1 Dashboard for Student 1 (Should show 1 course)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "var jsonData = pm.response.json();",
+                                    "pm.test(\"Dashboard returns array\", function() {",
+                                    "    pm.expect(jsonData).to.be.an('array');",
+                                    "});",
+                                    "pm.test(\"Student has at least 1 enrollment\", function() {",
+                                    "    pm.expect(jsonData.length).to.be.at.least(1);",
+                                    "});",
+                                    "pm.test(\"Course name is displayed\", function() {",
+                                    "    if(jsonData.length > 0) {",
+                                    "        pm.expect(jsonData[0]).to.have.property('courseName');",
+                                    "    }",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/student/{{student1_cnie}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "student",
+                                "{{student1_cnie}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "===== PART 4: RULE - 24-Hour Cancellation =====",
+            "description": "Students can delete/cancel an enrollment only if it was created less than 24 hours ago",
+            "item": [
+                {
+                    "name": "4.1 Check deletable flag is TRUE (recent enrollment)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "var jsonData = pm.response.json();",
+                                    "pm.test(\"deletable flag is true\", function() {",
+                                    "    if(jsonData.length > 0) {",
+                                    "        pm.expect(jsonData[0].deletable).to.be.true;",
+                                    "    }",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/student/{{student1_cnie}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "student",
+                                "{{student1_cnie}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "4.2 Delete enrollment (Should succeed - within 24h)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 204\", function() {",
+                                    "    pm.response.to.have.status(204);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/{{enrollment_id}}/student/{{student1_cnie}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "{{enrollment_id}}",
+                                "student",
+                                "{{student1_cnie}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "4.3 Verify deletion - Dashboard should show 0 courses",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "var jsonData = pm.response.json();",
+                                    "pm.test(\"Enrollment was deleted\", function() {",
+                                    "    var found = jsonData.some(e => e.enrollmentId == pm.variables.get('enrollment_id'));",
+                                    "    pm.expect(found).to.be.false;",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/student/{{student1_cnie}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "student",
+                                "{{student1_cnie}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "===== PART 5: VERIFY Dashboard for Other Students =====",
+            "item": [
+                {
+                    "name": "5.1 Dashboard Student 2",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status 200\", function() { pm.response.to.have.status(200); });",
+                                    "var jsonData = pm.response.json();",
+                                    "console.log(\"Student 2 has \" + jsonData.length + \" enrollments\");"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/student/{{student2_cnie}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "student",
+                                "{{student2_cnie}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "5.2 Dashboard Student 3",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status 200\", function() { pm.response.to.have.status(200); });"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/student/{{student3_cnie}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "enrollments",
+                                "student",
+                                "{{student3_cnie}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}   

@@ -1,0 +1,233 @@
+{
+    "info": {
+        "_postman_id": "course-service-api-tests",
+        "name": "Course Service - Complete API",
+        "description": "API tests for Course Microservice - All endpoints working",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Health Check - Hello",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Response contains 'Hello'\", function () {",
+                            "    pm.expect(pm.response.text()).to.include('Hello');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8082/hello",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8082",
+                    "path": [
+                        "hello"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "2. GET All Courses",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Response is an array\", function () {",
+                            "    pm.expect(pm.response.json()).to.be.an('array');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8082/api/courses",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8082",
+                    "path": [
+                        "api",
+                        "courses"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "3. GET Course By ID (ID=1)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Course has required fields\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('id');",
+                            "    pm.expect(jsonData).to.have.property('title');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8082/api/courses/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8082",
+                    "path": [
+                        "api",
+                        "courses",
+                        "1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "4. POST Create New Course",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 201 (Created)\", function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "pm.test(\"Response contains course ID\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('id');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json; charset=utf-8",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Web Development 301\",\n  \"description\": \"Full-stack development with Spring Boot and React\",\n  \"credits\": 4\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:8082/api/courses",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8082",
+                    "path": [
+                        "api",
+                        "courses"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "5. POST Create Course (French Characters)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 201 (Created)\", function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "pm.test(\"Course with accents created successfully\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('id');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json; charset=utf-8",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Littérature Française\",\n  \"description\": \"Étude des grands auteurs du 19ème siècle\",\n  \"credits\": 3\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:8082/api/courses",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8082",
+                    "path": [
+                        "api",
+                        "courses"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8082",
+            "type": "string"
+        }
+    ]
+}
